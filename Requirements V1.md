@@ -22,3 +22,14 @@
 
 	3)Connect Back and Front End.
 
+
+	After having V1 ready.Achieved
+	==============================
+		1)Express routing
+		2)Connected Mongo-Mongoose
+		3)Used EJS for creating simple partials
+		4)Used React progressively from simple show 
+			Components to parseand manipulate data
+		5)Used Axios in order to be able to make changes
+			on both front and back
+		6)Successfully created full CRUD.

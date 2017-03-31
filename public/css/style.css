@@ -75,3 +75,7 @@ p {
 footer.page-footer {
   margin: 0;
 }
+
+.uncolored-icon {
+  color: #cecece;
+}

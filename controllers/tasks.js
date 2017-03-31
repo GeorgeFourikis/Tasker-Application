@@ -10,6 +10,10 @@ router.get('/', (req, res) => {
 	res.render('main');
 });
 
+router.get('/see', (req, res) => {
+	res.render('see_tasks');
+});
+
 router.post('/', (req, res) => {
 	mongoose.model('Tasks').create({ 
 		title: 'i am awesome',  
@@ -20,41 +24,66 @@ router.post('/', (req, res) => {
 	});
 });
 
-router.get('/index', (req, res) => {
+router.get('/api/index', (req, res) => {
 	mongoose.model('Tasks').find({}, (error, foundTasks) => {
+		console.log(foundTasks)
 		res.json(foundTasks)
 	})
 })
+
+router.get('/api/show/:id', (req, res) => {
+	mongoose.model('Tasks').findOne({_id: req.params.id}, (error, foundTask) => {
+		console.log(foundTask)
+		res.json(foundTask)
+	})
+})
+
 
 router.get('/new', (req, res) => {
 	res.render('new_task');
 });
 
-router.post('/new', (req, res) => {
+router.post('/api/new', (req, res) => {
 	var newTask = {
-		title: req.params.title,
-		isCompleted: false
-	} 
+		title: req.body.title,
+		isCompleted: false,
+		date: req.body.date,
+		location: req.body.location,
+		starred: 0
+	}
 	mongoose.model('Tasks').create(newTask, (err, saved) => {
 		if(err) console.log(err);
 		else console.log(saved + " i saved something here");
+		res.json(saved)
 	})
+	// return ['redirect' => route('/see')];
 });
 
-router.get('/update', (req, res) => {
+router.get('/update/:id', (req, res) => {
 	res.render('update_task');
 });
 
-router.post('/update', (req, res) => {
-	//my code here
+router.post('/api/update', (req, res) => {
+	const updatedTask = {}
+	for (let key in req.body) {
+		if (req.body[key] !== undefined && key !== "_id") updatedTask[key] = req.body[key]
+	}
+	mongoose.model('Tasks').update({_id: req.body._id}, {$set: updatedTask}, (err, updated) => {
+		if(err) res.status(400).json(err);
+		res.json(updated)
+	});
 });
 
 router.get('/delete', (req, res) => {
 	res.render('delete_task');
 });
 
-router.post('/delete', (req, res) => {
-	//code again here
+router.post('/api/delete', (req, res) => {
+	console.log(req.body._id);
+	mongoose.model('Tasks').remove({_id: req.body._id}, (err, mess) => {
+		if(err) res.status(400).json(err);
+		res.json(mess)
+	});
 });
 
 

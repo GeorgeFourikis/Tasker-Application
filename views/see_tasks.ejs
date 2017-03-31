@@ -5,12 +5,13 @@
       <a id="logo-container" href="/" class="brand-logo">Talon Tasker</a>
       <ul class="right hide-on-med-and-down">
         <li><a href="/user/dashboard">George</a></li>
-        <li><a href="/seeAll">See your tasks</a></li>
+        <li><a href="/see">See your tasks</a></li>
         <li><a href="/new">Create a task</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Navbar Link</a></li>
+        <li class = "teal"><a href="/">Go Home</a></li>
+        <li class = "teal"><a href="/new">Create a task</a></li>      
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
@@ -18,42 +19,11 @@
 
   <div class="container">
     <div class="section">
-      <div class="row">
-        <h4>Your tasks</h4>
-        <ul class="collection">
-           <li class="collection-item avatar">
-             <span class="title">Task number 1</span>
-             <p>Mykonos, Greece<br>
-                09/09/2017
-             </p>
-             <a href="/delete" class="right"><i class="material-icons">delete</i></a>
-             <span><a href="/update"><i class="material-icons">mode_edit</i></a> </span>           
-           </li>
-           <li class="collection-item avatar">
-             <span class="title">Task number 3</span>
-             <p>Salamis, Greece<br>
-                15/12/2017
-             </p>
-              <a href="/delete" class="right"><i class="material-icons">delete</i></a>
-              <span><a href="/update"><i class="material-icons">mode_edit</i></a> </span>           
-           </li>
-           <li class="collection-item avatar">
-             <span class="title">Task number 3</span>
-             <p>Buenos Aires, Argentina<br>
-                02/05/2017
-             </p>
-              <a href="/delete" class="right"><i class="material-icons">delete</i></a>
-              <span><a href="/update"><i class="material-icons">mode_edit</i></a> </span>           
-            </li>
-           <li class="collection-item avatar">
-             <span class="title">Task number 4</span>
-             <p>Boston, MA, USA<br>
-                19/06/2017
-             </p>
-              <a href="/delete" class="right"><i class="material-icons">delete</i></a>
-              <span><a href="/update"><i class="material-icons">mode_edit</i></a> </span>           
-            </li>
-         </ul>
+
+
+      <div id='seeList'></div>
+      <div class='row center'>
+        <a class="btn-floating btn-large waves-effect waves-light teal" href="/new"><i class="material-icons">add</i></a>
       </div>
 
       <!--   Icon Section   -->
@@ -70,5 +40,111 @@
 
     </div>
   </div>
+
+  <script type="text/babel">
+
+
+    class Task extends React.Component {
+      constructor(props){
+        super(props);
+        this.title    = props.task.title;
+        this.location = props.task.location;
+        this.date     = props.task.date;
+        this.starred  = props.task.starred;
+        this.isCompleted = props.isCompleted;
+      }
+
+      render(){
+        const starColor = (this.props.task.starred) ? "#039be5" : "#cecece"
+        return(
+          <li className="collection-item avatar">
+               <span className="title">{this.title}</span>
+               <p>{this.location}<br/>
+                 {this.date}
+               </p>
+               <a className="right" onClick = {this.props.deleteTask}><i className="material-icons" value = {this.props.task._id}>delete</i></a>
+               <span><a onClick = {this.props.starTask}><i className="material-icons" style = {{color: starColor}} value = {this.props.task._id} >star</i></a> </span>           
+               <a onClick = {this.props.editTask}><i className="material-icons" value = {this.props.task._id} >mode_edit</i></a>          
+          </li>
+        )
+      }
+    }
+
+    class TaskList extends React.Component {
+      constructor(){
+        super();
+        this.state = {
+          tasks: []
+        };
+        this.handleEdit = this.handleEdit.bind(this)
+      }
+
+      componentDidMount(){
+        //use axios to get the data from the server
+        axios
+          .get('/api/index')
+          .then(result => this.setState({ tasks: result.data }))
+          .catch(error => console.log(error))
+      }
+
+      handleDelete(event) {
+        const _id = event.target.getAttribute("value")
+        axios.post('/api/delete', {_id})
+          .then( (result) => {
+            const newTasks = this.state.tasks.filter((task) => {
+              return task._id !== _id
+            })
+            this.setState({tasks: newTasks})
+            console.log(result)
+          }) 
+          .catch(err => console.log(err))
+      }
+
+      handleStar(event) {
+        const _id = event.target.getAttribute("value");
+        const taskId  = this.state.tasks.findIndex( task => task._id === _id)
+        const changing = Object.assign({}, this.state.tasks[taskId])
+        if(changing.starred == 1){  
+          changing.starred = 0
+          console.log(changing.starred);
+        }else{
+          changing.starred = 1
+        }
+        const newTasks = [...this.state.tasks]
+        newTasks[taskId] =  changing  
+        
+        axios.post('/api/update', changing)
+          .then( (result) => {
+            this.setState({tasks: newTasks})
+          }) 
+          .catch(err => console.log(err))
+      }
+
+      handleEdit(event) {
+        const _id = event.target.getAttribute("value");
+        window.location.replace("/update/" + _id)
+      }
+
+      render(){
+        console.log(this.state)
+        return(
+          <div className="row">
+            <h4>Your tasks</h4>
+            <ul className="collection">
+              {this.state.tasks.map((task) => <Task key = {task._id} task = {task} deleteTask = {this.handleDelete.bind(this)} starTask = {this.handleStar.bind(this)} editTask = {this.handleEdit.bind(this)} /> )}   
+            </ul>
+          </div>
+        )
+      }
+    }
+
+
+
+    ReactDOM.render(
+      <TaskList />,
+      document.getElementById('seeList')
+    )
+
+  </script>
 
 <% include partials/footer %>

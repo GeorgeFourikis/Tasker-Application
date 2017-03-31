@@ -3,7 +3,10 @@ var Schema = mongoose.Schema;
 
 var tasksSchema = new Schema({
 	title: String,
-	isCompleted: Boolean
+	isCompleted: Boolean,
+	location: String,
+	date: Date,
+	starred: Number
 });
 
 mongoose.model('Tasks', tasksSchema);
