@@ -1,0 +1,120 @@
+<% include partials/head %>
+
+
+  <nav role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" href="/" class="brand-logo">Talon Tasker</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="/user/dashboard">George</a></li>
+        <li><a href="/seeAll">See your tasks</a></li>
+        <li><a href="/new">Create a task</a></li>
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav">
+        <li><a href="#">Navbar Link</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div id ="update"></div>
+    <div class="section">
+      <!--   Icon Section   -->
+      <div class="row">
+        <div class="col s12 m12">
+          <div class="icon-block">
+            <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
+            <h5 class="center">It will speed you up</h5>
+
+            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+<script type="text/babel">
+  
+  class CreateTask extends React.Component{
+    constructor(){
+      super()
+      this.state = {}
+    }
+
+    componentDidMount(){
+      axios.get("/api/show/"+ window.location.pathname.split("/").slice(-1)[0]).then(res =>{
+        this.setState(res.data)
+      })
+    }
+
+    handleSubmit(event){
+      console.log("submitting")
+      event.preventDefault()
+      axios.post("/api/update", this.state)
+      .then((response) => {
+        window.location.replace("/see")
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    }
+
+    handleChange(event){
+      this.setState({[event.target.name]: event.target.value})
+    }
+
+    render(){
+      return(
+        <div className="container">
+          <div className="section">
+            <div className="row">
+              <h4>Create a new Task</h4>
+              <form className="col s12" onSubmit={this.handleSubmit.bind(this)}>
+                <div className="row">
+                  <div className="input-field col s12">
+                    <textarea
+                      className="materialize-textarea"
+                      name="title"
+                      value = {this.state.title}
+                      onChange = {this.handleChange.bind(this)}>
+                    </textarea>
+                    <label>Type your new Task</label>
+                  </div>
+                  <div className="input-field col s12">
+                    <textarea
+                      className="materialize-textarea"
+                      name="location"
+                      value = {this.state.location}
+                      onChange = {this.handleChange.bind(this)}>
+                    </textarea>
+                    <label>Where will this task will take place?</label>
+                  </div>
+                  <div className="input-field col s12">
+                    <input
+                      type="date"
+                      class="datepicker"
+                      name="date"
+                      value = {this.state.date}
+                      onChange = {this.handleChange.bind(this)}/>
+                  </div>
+                  <div className="input-field col s12 center">
+                    <input type="Submit" className="waves-effect waves-light btn-large" value = "Submit your task"/>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )
+    }
+  }
+
+  ReactDOM.render(
+    <CreateTask />,
+    document.getElementById('update')
+  )
+</script>
+<% include partials/footer %>
