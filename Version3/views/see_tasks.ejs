@@ -129,14 +129,6 @@
         return(
           <div className="row">
             <h4>Your tasks</h4>
-              <Dropdown trigger={
-                  <Button>Drop me!</Button>
-                }>
-                <NavItem>one</NavItem>
-                <NavItem>two</NavItem>
-                <NavItem divider />
-                <NavItem>three</NavItem>
-              </Dropdown>
             <ul className="collection">
               {this.state.tasks.map((task) => <Task 
                                                 key = {task._id} 

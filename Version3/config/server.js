@@ -5,6 +5,10 @@ var bodyParser= require('body-parser');
 const LocalStrategy = require('passport-local');
 const mongoose = require("mongoose")
 
+var cors = require('cors')
+
+
+app.use(cors())
 
 //Set bodyParser
 app.use(bodyParser.urlencoded({extended: true}));

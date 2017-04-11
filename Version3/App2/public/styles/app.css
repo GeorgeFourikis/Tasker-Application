@@ -7,8 +7,8 @@
     flex: 1;
     order: 1;
     padding: 20px;
-  }*/
-
+  }
+*/
   .right {
     flex: 1;
     order: 2;
@@ -39,4 +39,89 @@
       background: #FFF;
     }
   }
+  /* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+nav {
+    background-color: rgba(8, 171, 132, 0.79);
+}
+
+nav ul a {
+  color: rgba(83, 83, 83, 0.90);
+  font-size: 1.5em;
+}
+
+nav .brand-logo {
+  color: rgba(83, 83, 83, 0.90);
+  font-size: 2.5em;
+}
+
+p {
+  line-height: 2rem;
+}
+
+.button-collapse {
+  color: #26a69a;
+}
+
+.parallax-container {
+  min-height: 380px;
+  line-height: 0;
+  height: auto;
+  color: rgba(255,255,255,.9);
+}
+.parallax-container .section {
+  width: 100%;
+}
+
+@media only screen and (max-width : 992px) {
+  .parallax-container .section {
+    position: absolute;
+    top: 40%;
+  }
+  #index-banner .section {
+    top: 10%;
+  }
+}
+
+.row{
+  margin: 3% 0 3% 0;
+}
+
+.header{
+  color: black;
+  background-color: rgba(189, 240, 223, 0.55);
+  border: 0px solid white;
+  border-radius: 9px;
+  padding: 0;
+}
+
+@media only screen and (max-width : 600px) {
+  #index-banner .section {
+    top: 0;
+  }
+}
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+  font-size: inherit;
+}
+
+footer.page-footer {
+  margin: 0;
+}
+
+.uncolored-icon {
+  color: #cecece;
+}
+
+.background-image {
+  position: absolute;
+  width: margin 0 auto;
 }
