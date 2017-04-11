@@ -23,7 +23,7 @@ class Home extends React.Component{
           </div>
         </div>
 
-        <div className="container">
+        <div id="container2">
           <div className="section">
               <div className="row">
                 <div className="col s12 m12">
@@ -31,7 +31,7 @@ class Home extends React.Component{
                     <h2 className="center brown-text"><i className="material-icons">flash_on</i></h2>
                     <h5 className="center">It will speed you up</h5>
 
-                    <p className="light">
+                    <p className="light center">
                       We did most of the heavy lifting for you to provide a default stylings
                       that incorporate our custom components. Additionally, we refined animations and transitions
                       to provide a smoother experience for developers.

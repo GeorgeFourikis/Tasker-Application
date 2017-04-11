@@ -14,6 +14,10 @@
     order: 2;
   }
 
+  body{
+    background-color: rgba(84, 216, 179, 0.6);
+  }
+
   form {
     margin: 20px auto;
     position: relative;
@@ -46,6 +50,16 @@
  *
  * Made By MaterializeCSS.com
  */
+ #container{
+  margin: 0 0 25% 0;
+  padding: 0 0 15% 0;
+ }
+
+ #container2{
+  position: relative;
+  margin: 0 0 10% 0;
+ }
+
 nav {
     background-color: rgba(8, 171, 132, 0.79);
 }
@@ -81,16 +95,16 @@ p {
 @media only screen and (max-width : 992px) {
   .parallax-container .section {
     position: absolute;
-    top: 40%;
+    top: 60%;
   }
   #index-banner .section {
     top: 10%;
   }
 }
 
-.row{
-  margin: 3% 0 3% 0;
-}
+/*.row{
+  margin: 13% 0 13% 0;
+}*/
 
 .header{
   color: black;
