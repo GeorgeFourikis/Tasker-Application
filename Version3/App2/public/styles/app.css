@@ -14,8 +14,18 @@
     order: 2;
   }
 
-  body{
-    background-color: rgba(84, 216, 179, 0.6);
+/*  body{
+    background-color: rgba(167, 175, 188, 0.8);
+  }
+
+/*  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }*/
+
+  main {
+    flex: 1 0 auto;
   }
 
   form {
@@ -127,9 +137,11 @@ p {
   font-size: inherit;
 }
 
-footer.page-footer {
-  margin: 0;
-}
+/*footer.page-footer-sticky {
+    position: absolute;
+    bottom: 0;
+    margin: 0 auto;
+  }*/
 
 .uncolored-icon {
   color: #cecece;
@@ -138,4 +150,24 @@ footer.page-footer {
 .background-image {
   position: absolute;
   width: margin 0 auto;
+}
+
+
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin: 0 0 10% 0;
+}
+
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 20%;
+    width: 100%;
+    overflow: hidden;
 }

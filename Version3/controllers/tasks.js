@@ -3,113 +3,97 @@ const router 	= express.Router();
 const mongoose 	= require("mongoose");
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const jwt = require ('jsonwebtoken')
+
 
 const User = mongoose.model("User")
 
-//========================================
-// Main route
-//========================================
-router.get('/', (req, res, next) => {
-		next()
-	}, isLoggedIn, (req, res) => {
-	console.log(req.user)
-	res.render('main');
-});
+const createToken = function (req, res, next) {
+	return function(err, user, info) {
+		if(err) console.log(err)
+		if(user) {
+			var token = jwt.sign({ _id: user._id, email: user.email, username: user.username }, 'CLIENT_SECRET');
+			res.json({token})
+		} else {
+			res.json({})
+		}
 
-//TESTING ROUTES
-router.get('/map', (req, res) => {
-	res.render('maps');
-});
-
-router.get('/modal', (req, res) => {
-	res.render('modal');
-});
-
-
-
-//========================================
-// Login routes
-//========================================
-//show sign-up route
-router.get('/register', (req, res) => {
-	res.render('sign_up');
-});
+	}
+}
 
 //handle register POST request
 router.post('/register', (req, res) => {
 	User.register(new User({ email: req.body.email, username: req.body.username}), req.body.password, function(err, user){
-        if(err){
-            console.log(err);
-            return res.render('sign_up');
-        }
-        console.log("Pre authenticate")
-	    passport.authenticate("local")(req, res, function () {
-	    	console.log("registered")
-	    	res.redirect("/")
-		});
+		console.log("/register", user)
+        createToken(req, res)(err, user)
+        if(err) console.log(err);
+        else console.log(user);
     });
 });
 
 
-//render login form
-router.get("/login", function(req, res){
-   res.render("login");
-});
-
 //login logic
 //middleware
 router.post("/login", (req, res,next) => {
-		console.log(req.body)
-		next()
-	}
-	, passport.authenticate("local", {
-	    successRedirect: "/",
-	    failureRedirect: "/login"
-	})
+	console.log(req.originalUrl, req.body)
+	passport.authenticate("local", createToken(req, res))(req, res, next)
+  }		
 );
 
 
 router.get("/logout", function(req, res){
-  req.logout();
-  res.redirect("/");
+  res.json({})
 });
 
-
-function isLoggedIn(req, res, next){
-  if(req.isAuthenticated()){
-    return next();
-  }
-  res.redirect("/login");
-}
 
 
 
 //========================================
 // Task Routes
 //========================================
-router.get('/see', (req, res) => {
-	res.render('see_tasks');
-});
+
+router.get("/api/*", (req, res, next) => {
+	console.log("/api/*", req.query)
+	const token = req.query.token
+	if (token) {
+		try {
+		  var decoded = jwt.verify(token, 'CLIENT_SECRET');
+		  req.user = decoded
+		  return next()
+		} catch(err) {
+			console.log(err)
+			return res.json({})
+		}
+	} else {
+		res.json({})
+	}
+})
+
+router.post("/api/*", (req, res, next) => {
+	console.log("/api/*", req.query)
+	const token = req.body.token
+	if (token) {
+		try {
+		  var decoded = jwt.verify(token, 'CLIENT_SECRET');
+		  req.user = decoded
+		  return next()
+		} catch(err) {
+			console.log(err)
+			return res.json({})
+		}
+	} else {
+		res.json({})
+	}
+})
 
 
 router.get('/api/index', (req, res) => {
-	mongoose.model('Tasks').find({}, (error, foundTasks) => {
+	mongoose.model('Tasks').find({userId: req.user._id}, (error, foundTasks) => {
 		console.log(foundTasks)
 		res.json(foundTasks)
 	})
 })
 
-router.get('/api/show/:id', (req, res) => {
-	mongoose.model('Tasks').findOne({_id: req.params.id}, (error, foundTask) => {
-		console.log(foundTask)
-		res.json(foundTask)
-	})
-})
-
-
-router.get('/new', (req, res) => {
-	res.render('new_task');
-});
 
 router.post('/api/new', (req, res) => {
 	var newTask = {
@@ -117,33 +101,35 @@ router.post('/api/new', (req, res) => {
 		isCompleted: false,
 		date: req.body.date,
 		location: req.body.location,
-		starred: 0
+		starred: 0,
+		userId: req.user._id
 	}
 	mongoose.model('Tasks').create(newTask, (err, saved) => {
 		if(err) console.log(err);
 		else console.log(saved + " i saved something here");
 		res.json(saved)
 	})
-	// return ['redirect' => route('/see')];
 });
 
-router.get('/update/:id', (req, res) => {
-	res.render('update_task');
+router.get('/api/show/:_id', (req, res) => {
+	mongoose.model('Tasks').find({_id: req.params._id}, (err, mess) => {
+		if(err) res.status(400).json(err);
+		res.json(mess)
+	});
 });
+
 
 router.post('/api/update', (req, res) => {
 	const updatedTask = {}
 	for (let key in req.body) {
 		if (req.body[key] !== undefined && key !== "_id") updatedTask[key] = req.body[key]
 	}
-	mongoose.model('Tasks').update({_id: req.body._id}, {$set: updatedTask}, (err, updated) => {
+	console.log(updatedTask, req.user, req.body)
+	mongoose.model('Tasks').findOneAndUpdate({_id: req.body._id}, {$set: updatedTask}, {new: true}, (err, updated) => {
 		if(err) res.status(400).json(err);
+		console.log(updated)
 		res.json(updated)
 	});
-});
-
-router.get('/delete', (req, res) => {
-	res.render('delete_task');
 });
 
 router.post('/api/delete', (req, res) => {

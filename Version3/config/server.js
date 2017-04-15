@@ -3,7 +3,7 @@ var express = require("express");
 var app = express();
 var bodyParser= require('body-parser');
 const LocalStrategy = require('passport-local');
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 var cors = require('cors')
 

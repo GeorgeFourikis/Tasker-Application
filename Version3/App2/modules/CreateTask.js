@@ -1,7 +1,6 @@
 import React from 'react'
 import {Gmaps, Marker, InfoWindow, Circle} from 'react-gmaps';
 import Autocomplete from 'react-google-autocomplete';
-import axios from 'axios';
 
   class CreateTask extends React.Component{
     constructor(){
@@ -12,7 +11,7 @@ import axios from 'axios';
     handleSubmit(event){
       console.log("submitting")
       event.preventDefault()
-      axios.post("http://localhost:3000/api/new", this.state)
+      axios.post("/api/new", this.state)
       .then((response) => {
         window.location.replace("/see")
       })
@@ -69,6 +68,35 @@ import axios from 'axios';
               </form>
             </div>
           </div>
+
+
+          <footer className="teal">
+            <div className ="container">
+              <div className ="row">
+                <div className ="col l6 s12">
+                  <h5 className ="white-text">Our Vision</h5>
+                  <p className ="grey-text text-lighten-4">
+                    We want to be able to provide something simple but not simplistic.Something
+                    that would help everyone to organize his/her schedule and routine without
+                    complex applications that need too much time to learn how to use it.
+                  </p>
+                </div>
+                <div className ="col l6 s12">
+                  <h5 className ="white-text">Information</h5>
+                  <ul>
+                    <li><a className ="white-text" href="#!">Contact us</a></li>
+                    <li><a className ="white-text" href="#!">About us</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className ="footer-copyright">
+              <div className ="container">
+              Made with <a className ="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+              Powered by <a className ="brown-text text-lighten-3" href="https://github.com/GeorgeFourikis">George Fourikis</a>
+              </div>
+            </div>
+          </footer>
         </div>
       )
     }

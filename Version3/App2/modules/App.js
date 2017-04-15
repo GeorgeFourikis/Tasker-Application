@@ -1,7 +1,13 @@
 import React from 'react'
 import NavLink from './NavLink'
+import {browserHistory} from "react-router"
 
 class App extends React.Component{
+  handleLogOut(event) {
+    event.preventDefault()
+    localStorage.removeItem("token")
+    browserHistory.push("/")
+  }
   render() {
     const img = require('../public/images/background3.jpg');
 
@@ -14,7 +20,7 @@ class App extends React.Component{
               <li><NavLink to="/register">Sign up</NavLink></li>
               <li><NavLink to="/create">Create a Task</NavLink></li>
               <li><NavLink to="/see">See all tasks</NavLink></li>
-              <li><NavLink to="/logout">Logout</NavLink></li>
+              <li><a onClick = {this.handleLogOut.bind(this)}>Logout</a></li>
             </ul>
 
             <ul id="nav-mobile" className="side-nav">

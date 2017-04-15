@@ -1,17 +1,17 @@
 import React from 'react'
 import {Gmaps, Marker, InfoWindow, Circle} from 'react-gmaps';
 import Autocomplete from 'react-google-autocomplete';
-import axios from 'axios';
-
+import {browserHistory} from 'react-router'
   class UpdateTask extends React.Component{
     constructor(){
       super()
-      this.state = {}
+      this.state = {_id: window.location.pathname.split("/").slice(-1)[0]}
     }
 
     componentDidMount(){
       axios.get("/api/show/"+ window.location.pathname.split("/").slice(-1)[0]).then(res =>{
-        this.setState(res.data)
+        console.log(res.data)
+        this.setState(res.data[0])
       })
     }
 
@@ -20,7 +20,8 @@ import axios from 'axios';
       event.preventDefault()
       axios.post("/api/update", this.state)
       .then((response) => {
-        window.location.replace("/see")
+        debugger
+        browserHistory.push("/see")
       })
       .catch(function (error) {
         console.log(error);
@@ -36,7 +37,7 @@ import axios from 'axios';
         <div className="container">
           <div className="section">
             <div className="row">
-              <h4>Create a new Task</h4>
+              <h4>Update your Task</h4>
               <form className="col s12" onSubmit={this.handleSubmit.bind(this)}>
                 <div className="row">
                   <div className="input-field col s12">
@@ -46,7 +47,7 @@ import axios from 'axios';
                       value = {this.state.title}
                       onChange = {this.handleChange.bind(this)}>
                     </textarea>
-                    <label>Type your new Task</label>
+                    <label>Update your new Task</label>
                   </div>
                   <div className="input-field col s12">
                     <textarea
@@ -60,7 +61,7 @@ import axios from 'axios';
                   <div className="input-field col s12">
                     <input
                       type="date"
-                      class="datepicker"
+                      className="datepicker"
                       name="date"
                       value = {this.state.date}
                       onChange = {this.handleChange.bind(this)}/>

@@ -6,7 +6,8 @@ var tasksSchema = new Schema({
 	isCompleted: Boolean,
 	location: String,
 	date: Date,
-	starred: Number
+	starred: Number,
+	userId: String
 });
 
 mongoose.model('Tasks', tasksSchema);

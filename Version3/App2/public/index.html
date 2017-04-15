@@ -20,22 +20,30 @@
 
     </head>
     <body>
-
+    <main>
         <div id=app></div>        
         <div id=root></div>
         <div id=map></div>
         <script type="text/javascript">
             Application = {sessionId: "Yiorgos"}
             const apiDomain = "http://localhost:3000"
-            const axiosGet = function(url, params = { }) {
-                params.sessionId = Application.sessionId
-                return axios.get(apiDomain+url, {params})
+            
+            axios.oldGet = axios.get
+            axios.get = function(url, params = { }) {
+                const token = localStorage.getItem("token")
+                if (token) params.token = token
+                return axios.oldGet(apiDomain+url, {params})
             }
-            const axiosPost = function(url, body = { }) {
-                body.sessionId = Application.sessionId
-                return axios.post(apiDomain+url, body)
+
+            axios.oldPost = axios.post
+            axios.post = function(url, body = { }) {
+                const token = localStorage.getItem("token")
+                if (token) body.token = token
+                return axios.oldPost(apiDomain+url, body)
             }
         </script>
         <script src="/bundle.js"></script>
+
+    </main>
     </body>
 </html>

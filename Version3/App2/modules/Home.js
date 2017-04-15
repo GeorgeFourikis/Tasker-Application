@@ -5,6 +5,7 @@ class Home extends React.Component{
   render() {
     return (
       <div id="container">
+      <main>
         <div id="index-banner" className="parallax-container">
           <div className="section no-pad-bot">
             <div className="container">
@@ -41,6 +42,34 @@ class Home extends React.Component{
               </div>
           </div>
         </div>
+        </main>
+        <footer className="teal">
+            <div className ="container">
+              <div className ="row">
+                <div className ="col l6 s12">
+                  <h5 className ="white-text">Our Vision</h5>
+                  <p className ="grey-text text-lighten-4">
+                    We want to be able to provide something simple but not simplistic.Something
+                    that would help everyone to organize his/her schedule and routine without
+                    complex applications that need too much time to learn how to use it.
+                  </p>
+                </div>
+                <div className ="col l6 s12">
+                  <h5 className ="white-text">Information</h5>
+                  <ul>
+                    <li><a className ="white-text" href="#!">Contact us</a></li>
+                    <li><a className ="white-text" href="#!">About us</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className ="footer-copyright">
+              <div className ="container">
+              Made with <a className ="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+              Powered by <a className ="brown-text text-lighten-3" href="https://github.com/GeorgeFourikis">George Fourikis</a>
+              </div>
+            </div>
+          </footer>
       </div>
     )
   }
