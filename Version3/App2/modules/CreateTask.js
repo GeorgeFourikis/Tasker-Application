@@ -1,11 +1,15 @@
 import React from 'react'
 import {Gmaps, Marker, InfoWindow, Circle} from 'react-gmaps';
 import Autocomplete from 'react-google-autocomplete';
+import {browserHistory} from "react-router"
 
+import DatePicker from "react-datepicker"
+import moment from "moment"
   class CreateTask extends React.Component{
     constructor(){
       super()
       this.state = {}
+      this.date = moment()
     }
 
     handleSubmit(event){
@@ -13,7 +17,7 @@ import Autocomplete from 'react-google-autocomplete';
       event.preventDefault()
       axios.post("/api/new", this.state)
       .then((response) => {
-        window.location.replace("/see")
+        browserHistory.push("/see")
       })
       .catch(function (error) {
         console.log(error);
@@ -21,6 +25,12 @@ import Autocomplete from 'react-google-autocomplete';
     }
 
     handleChange(event){
+      if (event._isAMomentObject) {
+        event.target = {}
+        event.target.name = "date"
+        event.target.value = event.format('LL')
+        this.date = event
+      }
       this.setState({[event.target.name]: event.target.value})
     }
 
@@ -54,12 +64,10 @@ import Autocomplete from 'react-google-autocomplete';
                     
                   </div>
                   <div className="input-field col s12">
-                    <input
-                      type="date"
-                      id = "date"
-                      name="date"
-                      value = {this.state.date}
-                      onChange = {this.handleChange.bind(this)}/>
+                    <DatePicker
+                        selected={this.date}
+                        onChange={this.handleChange.bind(this)}
+                    />
                   </div>
                   <div className="input-field col s12 center">
                     <input type="Submit" className="waves-effect waves-light btn-large" value = "Submit your task"/>
@@ -68,7 +76,6 @@ import Autocomplete from 'react-google-autocomplete';
               </form>
             </div>
           </div>
-
 
           <footer className="teal">
             <div className ="container">

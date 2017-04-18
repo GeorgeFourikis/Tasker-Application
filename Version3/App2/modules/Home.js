@@ -1,5 +1,9 @@
 import React from 'react'
 import NavLink from './NavLink'
+import {browserHistory} from "react-router"
+import {Link} from 'react-router'
+
+
 
 class Home extends React.Component{
   render() {
@@ -15,7 +19,7 @@ class Home extends React.Component{
                 <h4 className="header col s12 light">Schedule your tasks with Talon,never forget a task again.</h4>
               </div>
               <div className="row center">
-                <a href="sign-up.html" id="download-button" className="btn-large waves-effect waves-light teal lighten-1">Start using it</a>
+              <Link to="/login" className="btn-large waves-effect waves-light teal lighten-1">Start using it</Link>
               </div>
               <br /><br />
               <div className="parallax"><img src={"/images/background3.jpg"} alt="Unsplashed background img 1" /></div>

@@ -3,7 +3,9 @@ import {Gmaps, Marker, InfoWindow, Circle} from 'react-gmaps';
 import Autocomplete from 'react-google-autocomplete';
 import Iframe from 'react-iframe'
 import {browserHistory} from "react-router"
-
+import {Link} from 'react-router'
+import {Navbar, NavItem} from 'react-materialize';
+import moment from "moment"
 
 class TaskMap extends React.Component{
     render(){
@@ -33,7 +35,7 @@ class TaskMap extends React.Component{
         super(props);
         this.title    = props.task.title;
         this.location = props.task.location;
-        this.date     = props.task.date;
+        this.date     = moment(props.task.date).format("LL");
         this.starred  = props.task.starred;
         this.isCompleted = props.isCompleted;
       }
@@ -124,9 +126,9 @@ class TaskMap extends React.Component{
                                                   editTask = {this.handleEdit.bind(this)} /> )} 
               </ul>
             </div>
-              <div className="row center">
-                <h4>Add a new task instead</h4> 
-               <a href="/create"><i className="large material-icons center">add</i></a>
+              <div className="row center iconClass">
+                <h4>Add a new task</h4> 
+                <Link to="/create" activeClassName="active"><i className="large material-icons">add</i></Link>
               </div>
               <br />
               <footer className="teal">

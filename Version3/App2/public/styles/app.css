@@ -160,14 +160,19 @@ html {
 }
 
 body {
-    margin: 0 0 10% 0;
+    margin: 0 0 15% 0;
 }
 
 footer {
+    margin: 5% 0 0 0;
     position: absolute;
     left: 0;
     bottom: 0;
-    height: 20%;
+    height: 10%;
     width: 100%;
     overflow: hidden;
+}
+
+.iconClass{
+  margin: 0 0 25% 0;
 }
