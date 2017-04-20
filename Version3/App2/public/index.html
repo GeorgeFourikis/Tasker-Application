@@ -22,11 +22,15 @@
     <body>
     <main>
         <div id=app></div>        
-        <div id=root></div>
-        <div id=map></div>
         <script type="text/javascript">
             Application = {sessionId: "Yiorgos"}
-            const apiDomain = "http://localhost:3000"
+            let apiDomain = ""
+            if (window.location.host === "localhost:3001"){
+                apiDomain = "http://localhost:3000"
+            } else if (window.location.host === "yiorgosisnotafunnyguys.com") {
+                apiDomain = "http://yiorgosisnotafunnyguys-api.com"
+            }
+            
             
             axios.oldGet = axios.get
             axios.get = function(url, params = { }) {

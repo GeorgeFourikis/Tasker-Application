@@ -20,7 +20,6 @@ import {browserHistory} from 'react-router'
       event.preventDefault()
       axios.post("/api/update", this.state)
       .then((response) => {
-        debugger
         browserHistory.push("/see")
       })
       .catch(function (error) {
@@ -47,7 +46,6 @@ import {browserHistory} from 'react-router'
                       value = {this.state.title}
                       onChange = {this.handleChange.bind(this)}>
                     </textarea>
-                    <label>Update your new Task</label>
                   </div>
                   <div className="input-field col s12">
                     <textarea
@@ -56,7 +54,6 @@ import {browserHistory} from 'react-router'
                       value = {this.state.location}
                       onChange = {this.handleChange.bind(this)}>
                     </textarea>
-                    <label>Where will this task will take place?</label>
                   </div>
                   <div className="input-field col s12">
                     <input

@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run start:dev",
-    "start:dev": "webpack-dev-server --inline --content-base public/ --history-api-fallback"
-  },
+   "start:dev": "webpack-dev-server --inline --content-base public --history-api-fallback",
+   "start:prod": "npm run server",
+   "webpack": "webpack -p --config webpack.production.config.js",
+   "express": "nodemon server.js"
+ },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -14,7 +16,7 @@
     "axios": "^0.15.2",
     "compression": "^1.6.2",
     "css-loader": "^0.23.1",
-    "express": "^4.14.0",
+    "express": "^4.15.2",
     "file-loader": "^0.11.1",
     "if-env": "^1.0.0",
     "node-sass": "^3.8.0",

@@ -60,19 +60,16 @@ class Home extends React.Component{
                 </div>
                 <div className ="col l6 s12">
                   <h5 className ="white-text">Information</h5>
-                  <ul>
-                    <li><a className ="white-text" href="#!">Contact us</a></li>
-                    <li><a className ="white-text" href="#!">About us</a></li>
-                  </ul>
+                  </div>
+                  <div className ="footer-copyright">
+                    <div className ="container">
+                    Made with <a className ="brown-text text-lighten-3" href="http://materializecss.com">Materialize </a>
+                    Powered by <a className ="brown-text text-lighten-3" href="https://github.com/GeorgeFourikis">George Fourikis</a>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className ="footer-copyright">
-              <div className ="container">
-              Made with <a className ="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-              Powered by <a className ="brown-text text-lighten-3" href="https://github.com/GeorgeFourikis">George Fourikis</a>
-              </div>
-            </div>
+
           </footer>
       </div>
     )

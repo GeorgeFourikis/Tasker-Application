@@ -5,19 +5,20 @@ import Iframe from 'react-iframe'
 import {browserHistory} from "react-router"
 import {Link} from 'react-router'
 import {Navbar, NavItem} from 'react-materialize';
-import moment from "moment"
+import moment from "moment";
+
 
 class TaskMap extends React.Component{
     render(){
-        let style = {marginBottom: 10}
+        let style = {marginBottom: 7}
         if (this.props.address){
             let baseUrl = "https://www.google.com/maps/embed/v1/place?key=AIzaSyCit5vlrsc2naYoM4-HqKM1TNevMRAlFBM&q="
             let newaddress = baseUrl + this.props.address.split(" ").join("+")
             return(
-                <div style = {style}>
+                <div className="container center" style = {style}>
                     <Iframe
-                      width="100%"
-                      height = "30%"
+                      width="50%"
+                      height = "50%"
                       position = 'relative'
                       frameborder="0" style="border:0"
                       url={newaddress} allowfullscreen/>
@@ -69,8 +70,6 @@ class TaskMap extends React.Component{
       }
 
       componentDidMount(){
-        console.log("mounting Component")
-        //use axios to get the data from the server
         axios.get('/api/index')
           .then(result => this.setState({ tasks: result.data }))
           .catch(error => console.log(error))
