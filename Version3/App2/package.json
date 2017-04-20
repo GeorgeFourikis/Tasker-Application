@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "engines": {"node": "7.4.0" },
     "autoprefixer-loader": "^3.1.0",
     "axios": "^0.15.2",
     "compression": "^1.6.2",

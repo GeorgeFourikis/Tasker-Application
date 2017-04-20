@@ -11,6 +11,6 @@ app.use("*",(req, res) => {
 	res.sendFile(path.join(__dirname, "/public/index.html"))
 })
 
-app.listen(3001, function(){
+app.listen(process.env.PORT || '3001', function(){
 	console.log("Server listening on 3001");
 });
